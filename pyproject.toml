@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tinyeye"
-version = "0.1.0"
+version = "0.1.1"
 description = "Borrowed eyes for Tiny: JPEG + sidecar md. Optional TAESD latent."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -23,10 +23,13 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["."]
-omit = ["tests/*", "taesd.py"]
+source = ["tinyeye"]
+omit = ["tests/*", "taesd.py", "tinyeye_encode.py", "tinyeye/__main__.py"]
 
 [tool.coverage.report]
 precision = 2
 show_missing = true
-fail_under = 70.0
+fail_under = 80.0
+
+[tool.setuptools.packages.find]
+include = ["tinyeye*"]
