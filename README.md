@@ -12,3 +12,5 @@ make tests
 make examples
 python tinyeye_encode.py examples/mug.jpg --out memory/ --no-latent --belief "A mug on a desk."
 ```
+
+Sidecars may include width/height/mean RGB. Those are measurements, not captions.
