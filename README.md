@@ -8,6 +8,9 @@ Tiny is a markdown cache that can grow ears, a mouth, and borrowed eyes. If a se
 
 ```bash
 python -m pip install -e ".[dev]"
+# or: pipenv install --dev
+# family consumers, until PyPI:
+#   pip install "tinyeye @ git+https://github.com/guilt/tinyeye.git@bananey"
 make tests
 make examples
 python tinyeye_encode.py examples/mug.jpg --out memory/ --no-latent --belief "A mug on a desk."

@@ -18,6 +18,10 @@ dev = ["pytest>=7.0", "pytest-cov", "coverage", "ruff>=0.5.6", "Pillow"]
 [project.scripts]
 tinyeye = "tinyeye_encode:main"
 
+[project.urls]
+Homepage = "https://github.com/guilt/tinyeye"
+Repository = "https://github.com/guilt/tinyeye"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
