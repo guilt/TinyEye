@@ -8,7 +8,7 @@ OUT = Path(__file__).resolve().parent / "out" / "swatches"
 SWATCHES = {
     "red-mug-standin": ((180, 40, 40), "A red square standing in for a mug."),
     "desk-wood": ((140, 90, 40), "A brown square standing in for a desk."),
-    "sky": ((70, 130, 200), ""),
+    "sky": ((70, 130, 200), ""),  # honest empty
     "leaf": ((40, 140, 60), ""),
 }
 
