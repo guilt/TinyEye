@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tinyeye"
+version = "0.1.1"
+description = "Borrowed eyes for Tiny: JPEG + sidecar md. Optional TAESD latent."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE.md"}
+dependencies = []
+
+[project.optional-dependencies]
+latent = ["torch", "torchvision", "Pillow"]
+dev = ["pytest>=7.0", "pytest-cov", "coverage", "ruff>=0.5.6", "Pillow"]
+
+[project.scripts]
+tinyeye = "tinyeye_encode:main"
+
+[project.urls]
+Homepage = "https://github.com/guilt/tinyeye"
+Repository = "https://github.com/guilt/tinyeye"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["tinyeye"]
+omit = ["tests/*", "taesd.py", "tinyeye_encode.py", "tinyeye/__main__.py"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+fail_under = 80.0
+
+[tool.setuptools.packages.find]
+include = ["tinyeye*"]

@@ -1,64 +1,79 @@
-# tinyeye
+# TinyEye — Borrowed Eyes for Tiny
 
-**Offline batch image → latent encoder**  
-CPU-first • no large VRAM • human-visualizable memory
+[![GitHub](https://img.shields.io/badge/GitHub-guilt/TinyEye-181717?logo=github)](https://github.com/guilt/TinyEye)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
+[![docs](https://img.shields.io/badge/docs-USER_GUIDE-0A66C2)](docs/USER_GUIDE.md)
 
-This is the starter implementation of the idea from the X thread by @_vkaku:
+Tiny is a markdown cache that can grow ears, a mouth, and borrowed eyes. If a sense is missing it says so. Port 11434. Files you can delete.
 
-> “I need a way given an image, just offline write it to latents quickly and in a batch mode, without requiring to load large ish models into VRAM.  
-> Plus, a memory should be easy to visualize by humans too (think of it as .py / .pyc).”
+**Layer A — organism Eye.** JPEG → `stem.eye.jpg` + `stem.eye.md`.
+Belief may be empty. Do not hallucinate a caption. Watch has **no camera**.
 
-## What it does
+**Layer B — desktop packer.** Optional TAESD latent. Latent is `.pyc`.
+JPEG + md is `.py`.
 
-1. Takes ordinary JPEG / PNG / WebP files.
-2. Encodes them with **TAESD** (Tiny AutoEncoder for Stable Diffusion, ~1.2 M params).
-3. Writes two artifacts per image:
+```bash
+python -m pip install -e ".[dev]"
+make tests && make examples
+python tinyeye_encode.py examples/mug.jpg --out memory/ --no-latent --belief "A mug on a desk."
+```
 
-| File | Purpose | Analogy |
-|------|---------|---------|
-| `*.latent.png` | 4-channel quantized latent any image viewer can open | `.py` (human inspectable) |
-| `*.latent.pt`  | Full float latent ready for models | `.pyc` (machine ready) |
+## The core idea
+
+Width, height, and mean RGB are measurements. They are not a caption.
+An empty `## Belief` is legal. An invented object name is not.
+
+## Capabilities
+
+| Feature | What it does |
+|---|---|
+| `write_eye_pair` | copy JPEG + write sidecar |
+| Honest empty belief | `belief_ok: false`, blank `## Belief` |
+| Measurements | optional width / height / mean RGB |
+| `--no-latent` | skip TAESD; memory is still complete |
+| Offline swatches | generated colors, no camera |
 
 ## Quick start
 
 ```bash
-git clone https://github.com/guilt/tinyeye.git
-cd tinyeye
-pip install -r requirements.txt
-./download_weights.sh          # ~9.4 MB total
-python tinyeye_encode.py yourphoto.jpg --out ./memory
+git clone https://github.com/guilt/TinyEye.git
+cd TinyEye && git checkout bananey
+python -m pip install -e ".[dev]"
+make tests && make examples
 ```
 
-Or whole folders:
+Until PyPI: `pip install "tinyeye @ git+https://github.com/guilt/tinyeye.git@bananey"`
 
-```bash
-python tinyeye_encode.py --dir ~/Pictures --out ./latents
+## Documentation
+
+| I want to... | Page |
+|---|---|
+| Get running in 5 minutes | [Getting Started](docs/source/getting_started.md) |
+| Understand the eye | [User Guide](docs/USER_GUIDE.md) |
+| Write a sidecar | [How-To: Sidecar](docs/source/how_to/02_sidecar.md) |
+| Keep belief empty | [How-To: Belief](docs/source/how_to/03_belief.md) |
+| Look up a symbol | [API Reference](docs/source/api/README.md) |
+
+## Development
+
+```
+make tests            pytest with coverage (gate ≥ 80%)
+make fixtures         examples/mug.jpg
+make dataset          4-swatch visual set
+make examples         eye pairs without latent
+make docs             regenerate API docs + Sphinx HTML
 ```
 
-Force CPU (default) or prefer GPU:
+## Family
 
-```bash
-python tinyeye_encode.py *.jpg --cpu
-python tinyeye_encode.py *.jpg --gpu
-```
+- [TinyToT](https://github.com/guilt/TinyToT) · [TinyHowl](https://github.com/guilt/TinyHowl) · [TinyEar](https://github.com/guilt/TinyEar) · [NanoToT](https://github.com/guilt/NanoToT)
 
-## Why this exists
+## Links
 
-- Full SD / Flux VAEs are 80–300 MB+ and want VRAM.
-- TAESD is tiny, runs happily on CPU, and is already good enough for many “memory store” and preview workflows.
-- The dual output (PNG + .pt) makes the latent library both **human-checkable** and **model-usable**.
-
-## Roadmap (the real tinyeye)
-
-- Better LVQ / entropy-aware formats that keep sharpness where it matters
-- Even smaller / faster on-the-fly encoders
-- A proper filesystem / memory store that lives in latent space
-- Live adapter (LoRA-style) on top of the store
-- Skip-hop path: ultra-fast image → compact token when full latent isn’t needed
-
-This is the minimal working seed.
+- **GitHub**: [github.com/guilt/TinyEye](https://github.com/guilt/TinyEye)
+- **Docs**: [USER_GUIDE](docs/USER_GUIDE.md) · [Getting started](docs/source/getting_started.md) · [API](docs/source/api/README.md)
 
 ## License
 
-TAESD weights & architecture: [madebyollin/taesd](https://github.com/madebyollin/taesd)  
-This wrapper: public domain / do whatever you want.
+MIT — see [LICENSE.md](LICENSE.md).

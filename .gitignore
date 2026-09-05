@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+taesd_encoder.pth
+taesd_decoder.pth
+examples/out/
+memory/
+.DS_Store
